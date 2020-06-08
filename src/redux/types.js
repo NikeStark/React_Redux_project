@@ -1,0 +1,1 @@
+export const FETCH_MOVIES = 'MOVIES/FETCH_MOVIES';
