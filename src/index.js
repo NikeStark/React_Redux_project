@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './components/app';
 import {Provider} from 'react-redux';
 import store from './redux/store';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
+import ErrorBoundary from './components/error-boundary';
 
 const app = (
   <Provider store={store}>
-      <Router>
-          <App />
-      </Router>
+      <ErrorBoundary>
+          <Router>
+                <App />
+          </Router>
+      </ErrorBoundary>
   </Provider>
 )
 
