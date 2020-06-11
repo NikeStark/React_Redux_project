@@ -1,4 +1,4 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES } from "./types";
 import {getMovies} from '../data-movies';
 
 const requestMovies = () => {
@@ -21,6 +21,12 @@ const errorMovies = (error) => {
     }
 }
 
+const sortMovies = () => {
+    return {
+        type: SORT_MOVIES
+    }
+}
+
 const dispatchMovies = (dispatch) => {
         dispatch(requestMovies())
             getMovies() 
@@ -36,5 +42,6 @@ export {
     requestMovies,
     fetchMovies,
     errorMovies,
-    dispatchMovies
+    dispatchMovies,
+    sortMovies
 }

@@ -1,15 +1,28 @@
 const dataMovies = [
         {
             id: 1,
-            title: 'King Arthur'
+            title: 'King Arthur',
+            year: 2010
         },
         {
             id: 2,
-            title: 'Terminator'
+            title: 'Terminator',
+            year: 2003
         },
         {   
             id: 3,
-            title: 'Adventures'
+            title: 'Adventures',
+            year: 2012
+        },
+        {   
+            id: 4,
+            title: 'Water is cold',
+            year: 2008
+        },
+        {   
+            id: 5,
+            title: 'Art artificial human',
+            year: 1999
         }
     ]
 

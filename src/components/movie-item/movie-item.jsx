@@ -1,10 +1,10 @@
 import React from 'react';
 import './movie-item.scss';
 
-const MovieItem = ({title}) => {
+const MovieItem = ({title, year}) => {
     return(
         <div>
-            <span>Title movie: {title}</span>
+            <span>Title movie: {title} - {year} year!</span>
         </div>
     )
 }
