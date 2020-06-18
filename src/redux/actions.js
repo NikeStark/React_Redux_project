@@ -1,4 +1,4 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES } from "./types";
 import {getMovies} from '../data-movies';
 
 const requestMovies = () => {
@@ -21,9 +21,22 @@ const errorMovies = (error) => {
     }
 }
 
-const sortMovies = () => {
+const sortOfMovies = (sortingMovies) => {
+    return sortingMovies === 'alphabet' ? (a,b) => a.title > b.title ? 1 : -1 :
+           sortingMovies === 'oldest' ? (a,b) => a.year - b.year : 
+           sortingMovies === 'newest' ? (a,b) => b.year - a.year : 0 
+}
+const sortMovies = (sortingMovies) => {
     return {
-        type: SORT_MOVIES
+        type: SORT_MOVIES,
+        payload: sortOfMovies(sortingMovies)
+    }
+}
+
+const searchMovies = (searchMovie) => {
+    return {
+        type: SEARCH_MOVIES,
+        payload: searchMovie 
     }
 }
 
@@ -43,5 +56,6 @@ export {
     fetchMovies,
     errorMovies,
     dispatchMovies,
-    sortMovies
+    sortMovies,
+    searchMovies
 }

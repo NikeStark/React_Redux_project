@@ -1,35 +1,32 @@
 import React, { Component, Fragment } from 'react';
 import './movie-list-item.scss';
-import {dispatchMovies, sortMovies} from '../../redux/actions';
+import {dispatchMovies, sortMovies, searchMovies} from '../../redux/actions';
 import MovieItem from '../movie-item';
 import {connect} from 'react-redux';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
+import SearchItem from '../search-item';
+import SortItems from '../sort-items';
 
-const ListOfMovies = ({ movies, sortMovies }) => { // !-- Component
-   const listOfMovies = movies.map((movie) => {
-        return(
-            <li key={movie.id}>
-                <MovieItem title={movie.title} year={movie.year}/>
-            </li>
-        )
-    })
+const ListOfMovies = ({ movies, sortMovies, searchMovies, search}) => { // !-- Component
+   const searchCase = search.toLowerCase();
+   const listOfMovies = movies
+        .filter((movie) => movie.title.toLowerCase().includes(searchCase))
+        .map((movie) => {
+            return (
+                <li key={movie.id}>
+                    <MovieItem title={movie.title} year={movie.year}/>
+                </li>
+            )
+        })
+
     return (
         <Fragment>
-            <label>Search: </label>
-            <input />
-            <ul>
-                {listOfMovies}
-            </ul>
-            <label>Sorted by: </label>
-            <select>
-            <optgroup label="Sorted by">
-                <option value="none" > --- </option>
-                <option onClick={() => sortMovies(movies.sort((a,b) => a.title > b.title))}>Alphabet</option>
-                <option onClick={() => sortMovies(movies.sort((a,b) => a.year - b.year))}>Old movies</option>
-                <option onClick={() => sortMovies(movies.sort((a,b) => b.year - a.year))}>New movies</option>
-            </optgroup>
-            </select>
+            <SearchItem searchMovies={searchMovies} />
+                <ul>
+                    {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
+                </ul>
+            <SortItems sortMovies={sortMovies} />
         </Fragment>
     )
 }
@@ -41,8 +38,8 @@ class MovieListItem extends Component { // !-- Container
     }
 
     render(){
-        const{movies, loading, error} = this.props;
-
+        const{movies, loading, error, sortMovies, searchMovies, search} = this.props;
+        
         if(loading){
             return <Spinner />
         }
@@ -50,9 +47,9 @@ class MovieListItem extends Component { // !-- Container
         if(error){
             return <ErrorIndicator />
         }
-
+        
         if(!loading || error){
-            return <ListOfMovies movies={movies} sortMovies={this.props.sortMovies}/>
+            return <ListOfMovies search={search} movies={movies} sortMovies={sortMovies} searchMovies={searchMovies}/>
         }
     }
 }
@@ -61,14 +58,16 @@ const mapStateToProps = (state) => {
     return {
         movies: state.movies.movies,
         loading: state.loading.loading,
-        error: state.error.error
+        error: state.error.error,
+        search: state.search.search
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchMovies: () => dispatchMovies(dispatch),
-        sortMovies: () => dispatch(sortMovies())
+        sortMovies: (sortingMovies) => dispatch(sortMovies(sortingMovies)),
+        searchMovies: (searchMovie) => dispatch(searchMovies(searchMovie))
     }
 }
 

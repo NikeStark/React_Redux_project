@@ -1,9 +1,10 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES } from "./types";
 
 const initialState = {
     movies: [],
     loading: true,
-    error: null
+    error: null,
+    search: ''
 }
 
 const moviesReducer = (state = initialState, action) => {
@@ -30,8 +31,13 @@ const moviesReducer = (state = initialState, action) => {
             }
         case SORT_MOVIES:
             return {
-                ...state.movies,
-                movies: [...state.movies]
+                ...state,
+                movies: [...state.movies.sort(action.payload)]
+            }
+        case SEARCH_MOVIES:
+            return {
+                ...state,
+                search: action.payload
             }
 
         default:
