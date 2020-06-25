@@ -1,4 +1,4 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES, LOGIN_MOVIES, SHOW_MOVIES, LOGOUT_MOVIES } from "./types";
 import {getMovies} from '../data-movies';
 
 const requestMovies = () => {
@@ -40,6 +40,24 @@ const searchMovies = (searchMovie) => {
     }
 }
 
+const isLoggedIn = () => {
+    return {
+        type: LOGIN_MOVIES
+    }
+}
+
+const showListOfMovies = () => {
+    return {
+        type: SHOW_MOVIES
+    }
+}
+
+const isLoggedOut = () => {
+    return {
+        type: LOGOUT_MOVIES
+    }
+}
+
 const dispatchMovies = (dispatch) => {
         dispatch(requestMovies())
             getMovies() 
@@ -57,5 +75,8 @@ export {
     errorMovies,
     dispatchMovies,
     sortMovies,
-    searchMovies
+    searchMovies,
+    isLoggedIn,
+    showListOfMovies,
+    isLoggedOut
 }

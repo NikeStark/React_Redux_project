@@ -13,22 +13,21 @@ const ListOfMovies = ({ movies, sortMovies, searchMovies, search}) => { // !-- C
    const listOfMovies = movies
         .filter((movie) => movie.title.toLowerCase().includes(searchCase))
         .map((movie) => {
-            return (
-                <li key={movie.id}>
-                    <MovieItem title={movie.title} year={movie.year}/>
-                </li>
-            )
+                return (
+                    <li key={movie.id}>
+                        <MovieItem title={movie.title} year={movie.year}/>
+                    </li>
+                )
         })
-
-    return (
-        <Fragment>
-            <SearchItem searchMovies={searchMovies} />
-                <ul>
-                    {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
-                </ul>
-            <SortItems sortMovies={sortMovies} />
-        </Fragment>
-    )
+            return (
+                <Fragment>
+                    <SearchItem searchMovies={searchMovies} />
+                        <ul>
+                            {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
+                        </ul>
+                    <SortItems sortMovies={sortMovies} />
+                </Fragment>
+            )
 }
 
 class MovieListItem extends Component { // !-- Container

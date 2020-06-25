@@ -1,22 +1,48 @@
 import React from 'react';
+import { Component } from 'react';
+import ErrorIndicator from '../error-indicator';
 import {Route, Switch} from 'react-router-dom';
 import MoviePage from '../pages/movie-page';
 import HomePage from '../pages/home-page';
 import Navbar from '../navbar';
+import LoginPage from '../pages/login-page';
+import {connect} from 'react-redux';
+import {isLoggedIn} from '../../redux/actions';
 
 import './app.scss';
 
-const App = () => {
-    return (
-        <div>
-            <span className="test-style">Movies</span>
-            <Navbar />
-            <Switch>
-                <Route path='/' component={HomePage} exact />
-                <Route path='/movies' component={MoviePage} />
-            </Switch>
-        </div>
-    )
+class App extends Component {
+    onLogin = () => {
+        this.props.isLoggedIn();
+    }
+   
+    render(){
+        const{login} = this.props 
+        return (
+            <div>
+                <span className="test-style">Movies</span>
+                <Navbar />
+                <Switch>
+                    <Route path='/' component={HomePage} exact />
+                    <Route path='/movies' render = {() => <MoviePage login={login}/>} />
+                    <Route path='/login' render = {() => <LoginPage onLogin={this.onLogin} login={login} />} />
+
+                    <Route path='/login/' render = {() => <ErrorIndicator />} />
+                </Switch>
+            </div>
+        )
+    }
+}
+const mapStateToProps = (state) => {
+    return{
+        login: state.login.login
+    }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        isLoggedIn: () => dispatch(isLoggedIn())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
