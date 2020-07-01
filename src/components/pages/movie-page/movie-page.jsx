@@ -4,7 +4,6 @@ import MovieListItem from '../../movie-list-item';
 import { Redirect } from 'react-router-dom';
 
 const MoviePage = ({login}) => {
-    console.log(login)
     if(login){
         return (
             <div>

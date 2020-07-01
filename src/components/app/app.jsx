@@ -12,7 +12,7 @@ import {isLoggedIn} from '../../redux/actions';
 import './app.scss';
 
 class App extends Component {
-    onLogin = () => {
+    onLogIn = () => {
         this.props.isLoggedIn();
     }
    
@@ -25,9 +25,9 @@ class App extends Component {
                 <Switch>
                     <Route path='/' component={HomePage} exact />
                     <Route path='/movies' render = {() => <MoviePage login={login}/>} />
-                    <Route path='/login' render = {() => <LoginPage onLogin={this.onLogin} login={login} />} />
+                    <Route path='/login' render = {() => <LoginPage onLogin={this.onLogIn} login={login} />} />
 
-                    <Route path='/login/' render = {() => <ErrorIndicator />} />
+                    <Route path='/' render = {() => <ErrorIndicator />} />
                 </Switch>
             </div>
         )

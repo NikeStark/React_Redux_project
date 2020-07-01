@@ -4,24 +4,54 @@ import { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { showListOfMovies, isLoggedOut } from '../../../redux/actions';
 import {connect} from 'react-redux';
+import {serviceAuth} from '../../../serviceAuth';
 
-const ShowLogIn = ({handleClick}) => { // !-- Component
+const ShowLogIn = ({handleLoginForm, handleSubmit}) => { // !-- Component
     return (
         <div>
-            <form>
-                <span>Log in order to see list of movies</span>
+            <form name='form' onSubmit={handleSubmit}>
+                <span>Log in order to see the list of movies</span>
                 <br />
-                <button onClick={handleClick}>
-                    Log in
-                </button>
+                <label>Name </label>
+                <input type="text" name='login' onChange={handleLoginForm} />
+                <label>Password </label>
+                <input type="password" name='password' onChange={handleLoginForm} />
+                <button type="submit"> Log In </button>
             </form>
         </div>
     )
 }
 
 class LoginPage extends Component { // !-- Container
-    
-    handleClick = () => {
+    state = {
+        login: '',
+        password: ''
+    }
+
+    handleLoginForm = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        }) 
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const{login, password} = this.state
+        let userData = {}
+        userData.userName = login
+        userData.userPassword = password
+       
+        serviceAuth(login, password) 
+        .then(() => {
+            console.log('Current user:', userData)
+            return this.onLogIn()
+        })
+        .catch(() => {
+            return null
+        })
+    }
+
+    onLogIn = () => {
         setTimeout(() => {
             this.props.onLogin();
         }, 1000); 
@@ -36,19 +66,20 @@ class LoginPage extends Component { // !-- Container
     }
 
     render(){
-        if(this.props.logout){
-            return <ShowLogIn handleClick={this.handleClick}/>
+        const{logout, login, showMovies} = this.props
+        if(logout){
+            return <ShowLogIn handleLoginForm={this.handleLoginForm} handleSubmit={this.handleSubmit} />
         }
 
-        if(this.props.showMovies){
+        if(showMovies){
             return <Redirect to="/movies"/>
         }
 
-        if(this.props.login){
+        if(login){
              return (
                 <div>
-                    <span>Congratilation! Now you can see the list of movies!!!</span>
-                    <br />
+                    <span>Congratilation {this.state.login}! Now you can see the list of movies!!!</span>
+                        <br />
                     <button onClick={this.onLogOut}>
                         Log out
                     </button>
@@ -59,14 +90,14 @@ class LoginPage extends Component { // !-- Container
              )
         }
        
-        return <ShowLogIn handleClick={this.handleClick}/>
+        return <ShowLogIn handleLoginForm={this.handleLoginForm} handleSubmit={this.handleSubmit}/>
     }
 }
 
 const mapStateToProps = (state) => {
     return{
         showMovies: state.showMovies.showMovies,
-        logout: state.logout.logout 
+        logout: state.logout.logout
     }
 }
 

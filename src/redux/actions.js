@@ -41,10 +41,10 @@ const searchMovies = (searchMovie) => {
 }
 
 const isLoggedIn = () => {
-    return {
-        type: LOGIN_MOVIES
+        return {
+            type: LOGIN_MOVIES
+        }
     }
-}
 
 const showListOfMovies = () => {
     return {
