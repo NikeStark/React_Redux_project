@@ -8,7 +8,9 @@ const rootReducer = combineReducers({
     search: moviesReducer,
     login: moviesReducer,
     showMovies: moviesReducer,
-    logout: moviesReducer
+    logout: moviesReducer,
+    userName: moviesReducer,
+    userPassword: moviesReducer
 })
 
 export default rootReducer;

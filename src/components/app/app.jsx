@@ -13,7 +13,7 @@ import './app.scss';
 
 class App extends Component {
     onLogIn = () => {
-        this.props.isLoggedIn();
+        this.props.isLoggedIn(); 
     }
    
     render(){
@@ -34,7 +34,7 @@ class App extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    return{
+    return {
         login: state.login.login
     }
 }

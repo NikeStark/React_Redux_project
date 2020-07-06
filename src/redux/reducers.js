@@ -1,4 +1,4 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES, LOGIN_MOVIES, SHOW_MOVIES, LOGOUT_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES, LOGIN_MOVIES, SHOW_MOVIES, LOGOUT_MOVIES, AUTH_MOVIES } from "./types";
 
 const initialState = {
     movies: [],
@@ -7,7 +7,9 @@ const initialState = {
     search: '',
     login: false,
     logout: false,
-    showMovies: false
+    showMovies: false,
+    userName: '',
+    userPassword: ''
 }
 
 const moviesReducer = (state = initialState, action) => {
@@ -47,7 +49,7 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 login: true,
-                logout: false 
+                logout: false
             }
         case SHOW_MOVIES:
             return {
@@ -58,8 +60,14 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 login: false,
-                logout: true
-            }   
+                logout: true,
+                userName: ''
+            }  
+        case AUTH_MOVIES:
+            return {
+                ...state,
+                ...action.payload
+            }
 
         default:
             return state;
