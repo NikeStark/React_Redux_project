@@ -1,4 +1,4 @@
-import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES, LOGIN_MOVIES, SHOW_MOVIES, LOGOUT_MOVIES, AUTH_MOVIES } from "./types";
+import { FETCH_MOVIES, REQUEST_MOVIES, ERROR_MOVIES, SORT_MOVIES, SEARCH_MOVIES, LOGIN_MOVIES, SHOW_MOVIES, LOGOUT_MOVIES, AUTH_MOVIES, ALERT_NOTICE, BUTTON_LOADING } from "./types";
 import {getMovies} from '../data-movies';
 
 const requestMovies = () => {
@@ -65,6 +65,19 @@ const isLoggedOut = () => {
     }
 }
 
+const alertNotice = (alert) => {
+    return {
+        type: ALERT_NOTICE,
+        payload: alert
+    }
+}
+
+const onLoadingButton = () => {
+    return {
+        type: BUTTON_LOADING
+    }
+}
+
 const dispatchMovies = (dispatch) => {
         dispatch(requestMovies())
             getMovies() 
@@ -86,5 +99,7 @@ export {
     isLoggedIn,
     showListOfMovies,
     isLoggedOut,
-    userAuth
+    userAuth,
+    alertNotice,
+    onLoadingButton
 }
