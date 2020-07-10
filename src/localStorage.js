@@ -1,6 +1,10 @@
+import SecureLS from 'secure-ls';
+
+const ls = new SecureLS({encodingType: 'aes'})
+
 export const loadState = () => {
     try {
-      const serializedState = localStorage.getItem('state');
+      const serializedState = ls.get('userData');
       if (serializedState === null) {
         return undefined;
       }
@@ -13,7 +17,7 @@ export const loadState = () => {
   export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState);
+    ls.set('userData', serializedState);
   } catch {
     // ignore write errors
   }

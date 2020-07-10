@@ -8,18 +8,17 @@ import {serviceAuth} from '../../../serviceAuth';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 
-const ShowLogIn = ({ buttonLoading, handleLoginForm, handleSubmit, userName, userPassword, alert}) => { // !-- Component
+const ShowLogIn = ({ buttonLoading, handleLoginForm, handleSubmit, alert, onObservePassword, observePassword, buttonObservePass }) => { // !-- Component
     return (
         <div>
             <form name='form' onSubmit={handleSubmit}>
                 <span>Log in order to see the list of movies</span>
                 <div>
-                    { alert && !userName && !userPassword ? 
-                    <span>Wrong name or password.. Please, check it out</span> : 
-                    null }
+                    { alert && 
+                    <span>Login or password are incorrect.. Please, check it out</span> }
                     <br />
                     <label>Name </label>
-                    <input className={alert && !userName ? 'has-error' : ''} 
+                    <input className={alert ? 'has-error' : ''} 
                         type="text" 
                         name='userName' 
                         onChange={handleLoginForm} 
@@ -27,11 +26,15 @@ const ShowLogIn = ({ buttonLoading, handleLoginForm, handleSubmit, userName, use
                 </div>
                 <div>
                     <label>Password </label>
-                    <input className={alert && !userPassword ? 'has-error' : ''} 
-                        type="password" 
+                    <input className={alert ? 'has-error' : ''}
+                        type={observePassword ? "text" : "password"}
                         name='userPassword' 
                         onChange={handleLoginForm} 
                     />
+                    <span className="show-hide-button-eye" onClick={onObservePassword}>
+                        {!buttonObservePass && <i class="fa fa-eye" aria-hidden="true"></i>}
+                        {buttonObservePass && <i class="fa fa-eye-slash" aria-hidden="true"></i>}
+                    </span>
                 </div>
                 <button type="submit">
                     {buttonLoading && <span>loading...</span>}
@@ -44,26 +47,37 @@ const ShowLogIn = ({ buttonLoading, handleLoginForm, handleSubmit, userName, use
 }
 
 class LoginPage extends Component { // !-- Container
-    
+    state = {
+        observePassword: false,
+        buttonObservePass: false
+    }
+
+    onObservePassword = () => {
+        this.setState({
+            observePassword: !this.state.observePassword,
+            buttonObservePass: !this.state.buttonObservePass
+        })
+    }
+
     onButtonLoading = () => { 
-        this.props.onLoadingButton()
+        this.props.onLoadingButton();
     }
 
     handleLoginForm = (e) => {
-        this.props.userAuth(e.target.name, e.target.value) 
+        this.props.userAuth(e.target.name, e.target.value); 
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.onButtonLoading(e)
-        
+     
         const{userName, userPassword} = this.props;
         const userData = {};
-        userData.login = userName
-        userData.password = userPassword
-      
-        serviceAuth(userName, userPassword) 
+        userData.login = userName;
+        userData.password = userPassword;
+
+        serviceAuth(userName, userPassword)
         .then(() => {
+            this.onButtonLoading(e);
             const token = jwt.sign({login: `${userName}`, password: `${userPassword}`}, 'secret');
             //localStorage.setItem('userData', token)
             Cookies.set('userData', token,
@@ -94,7 +108,16 @@ class LoginPage extends Component { // !-- Container
     render(){
         const{logout, login, userName, showMovies, alert, buttonLoading} = this.props
         if(logout){
-            return <ShowLogIn buttonLoading={buttonLoading} alert={alert} handleLoginForm={this.handleLoginForm} handleSubmit={this.handleSubmit} />
+            return <ShowLogIn
+                buttonObservePass={this.state.buttonObservePass}
+                observePassword={this.state.observePassword}
+                onObservePassword={this.onObservePassword} 
+                userName={userName}
+                buttonLoading={buttonLoading} 
+                alert={alert} 
+                handleLoginForm={this.handleLoginForm} 
+                handleSubmit={this.handleSubmit} 
+            />
         }
 
         if(showMovies){
@@ -116,7 +139,16 @@ class LoginPage extends Component { // !-- Container
              )
         }
        
-        return <ShowLogIn buttonLoading={buttonLoading} alert={alert} handleLoginForm={this.handleLoginForm} handleSubmit={this.handleSubmit}/>
+        return <ShowLogIn 
+            buttonObservePass={this.state.buttonObservePass}
+            observePassword={this.state.observePassword}
+            onObservePassword={this.onObservePassword}
+            userName={userName} 
+            buttonLoading={buttonLoading} 
+            alert={alert} 
+            handleLoginForm={this.handleLoginForm} 
+            handleSubmit={this.handleSubmit}
+        />
     }
 }
 

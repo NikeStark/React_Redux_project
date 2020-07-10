@@ -8,7 +8,7 @@ import ErrorIndicator from '../error-indicator';
 import SearchItem from '../search-item';
 import SortItems from '../sort-items';
 
-const ListOfMovies = ({ movies, sortMovies, searchMovies, search}) => { // !-- Component
+const ListOfMovies = ({ movies, sortMovies, searchMovies, search, onClearSearch}) => { // !-- Component
    const searchCase = search.toLowerCase();
    const listOfMovies = movies
         .filter((movie) => movie.title.toLowerCase().includes(searchCase))
@@ -21,7 +21,7 @@ const ListOfMovies = ({ movies, sortMovies, searchMovies, search}) => { // !-- C
         })
             return (
                 <Fragment>
-                    <SearchItem searchMovies={searchMovies} />
+                    <SearchItem searchMovies={searchMovies} onClearSearch={onClearSearch}/>
                         <ul>
                             {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
                         </ul>
@@ -36,6 +36,12 @@ class MovieListItem extends Component { // !-- Container
         this.props.fetchMovies();
     }
 
+    onClearSearch = (e) => {
+        this.props.searchMovies('');
+        e.preventDefault();
+        e.target.reset();
+    }
+
     render(){
         const{movies, loading, error, sortMovies, searchMovies, search} = this.props;
         
@@ -48,7 +54,7 @@ class MovieListItem extends Component { // !-- Container
         }
         
         if(!loading || error){
-            return <ListOfMovies search={search} movies={movies} sortMovies={sortMovies} searchMovies={searchMovies}/>
+            return <ListOfMovies onClearSearch={this.onClearSearch} search={search} movies={movies} sortMovies={sortMovies} searchMovies={searchMovies}/>
         }
     }
 }
