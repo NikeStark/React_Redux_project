@@ -25,6 +25,7 @@ const ListOfMovies = ({ movies, sortMovies, searchMovies, search, onClearSearch}
                         <ul>
                             {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
                         </ul>
+                        <span>{listOfMovies.length} movies was found!</span>
                     <SortItems sortMovies={sortMovies} />
                 </Fragment>
             )

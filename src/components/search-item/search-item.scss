@@ -1,0 +1,83 @@
+/* --- SEARCH BOX --- */
+$width-search-box: 245px;
+$opacity-search-box: 0.7;
+$hover-opacity-search-box: 1;
+
+/* --- SEARCH FORM --- */
+$display-search-form: flex;
+$justify-content-search-form: space-between;
+
+/* --- SEARCH BUTTON CLEAR --- */
+$color-button-clear: #24AAF2;
+$hover-color-button-clear: rgb(160, 16, 16);
+$cursor-button-clear: pointer;
+$background-button-clear: transparent;
+$border-button-clear: 0;
+$padding-button-clear: 0;
+$position-button-clear: relative;
+$margin-button-clear: -22px;
+$transition-button-clear: all 500ms;
+$transform-button-clear: scale(1.2);
+
+/* --- SEARCH INPUT --- */
+$color-input-search-box: #1372a5;
+$border-input-search-box: 1px solid #24AAF2; 
+$border-radius-search-box: 5px; 
+$focus-border-color-input-search-box: #1b8cce;
+$padding-input-search-box: 4px 60px 4px 7px;
+$transition-input-search-box: all 300ms;
+$opacity-input-search-box: 0.7;
+$hover-opacity-input-search-box: 1;
+$focus-placeholder-input-search-box: transparent;
+
+/* --- SEARCH LOGO IMG --- */
+$margin-img-search: 20px;
+$width-img-search: 27px;
+
+.search-box {
+    width: $width-search-box;
+    
+    .form-search-box {
+        display: $display-search-form;
+        justify-content: $justify-content-search-form;
+    }
+
+    .button-search-box {
+        position: $position-button-clear;
+        margin-left: $margin-button-clear;
+        background: $background-button-clear; 
+        color: $color-button-clear;
+        padding: $padding-button-clear;
+        border: $border-button-clear;
+        cursor: $cursor-button-clear;
+        transition: $transition-button-clear;
+        &:hover{
+            color: $hover-color-button-clear;
+            transform: $transform-button-clear;
+        }
+    }
+
+    .input-search-box { 
+        color: $color-input-search-box; 
+        border: $border-input-search-box;
+        border-radius: $border-radius-search-box;
+        padding: $padding-input-search-box;
+        opacity: $opacity-input-search-box;
+        transition: $transition-input-search-box;
+        &:hover{
+            opacity: $hover-opacity-input-search-box;
+        }
+        &:focus{
+            opacity: $hover-opacity-input-search-box;
+            border-color: $focus-border-color-input-search-box; 
+        }
+        &:focus::-moz-placeholder{
+            color: $focus-placeholder-input-search-box;
+        } 
+    }
+
+    .img-search{
+        width: $width-img-search; 
+        margin-left: $margin-img-search;
+    }
+}

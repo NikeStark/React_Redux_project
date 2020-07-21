@@ -64,6 +64,8 @@ const moviesReducer = (state = initialState, action) => {
                 login: false,
                 logout: true,
                 alert: null,
+                userName: null,
+                userPassword: null,
                 buttonLoading: false
             }  
         case AUTH_MOVIES:

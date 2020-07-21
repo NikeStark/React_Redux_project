@@ -2,11 +2,12 @@ $color: red;
 $cursor: pointer;
 $position-rel: relative;
 
+
 .has-error{
     border-color: $color;
 }
 
-.fa-eye, .fa-eye-slash{
+ .fa-eye, .fa-eye-slash{
     position: $position-rel;
     cursor: $cursor;
     margin-left: -20px;
