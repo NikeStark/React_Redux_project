@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {serviceAuth} from '../../../serviceAuth';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
+import ModalView from '../../modal-view';
 
 const ShowLogIn = ({ onKeyUp, refUserName, refUserPassword, refButtonSubmit,
                      buttonLoading, handleLoginForm, 
@@ -47,9 +48,11 @@ const ShowLogIn = ({ onKeyUp, refUserName, refUserPassword, refButtonSubmit,
                     </span>
                 </div>
                 <Bounce>
-                    <button type='button' onClick={handleSubmit} 
+                    <button className={alert ? 'has-err' : ''} onClick={handleSubmit} 
+                            type='button'  
                             onKeyUp={onKeyUp}
                             ref={refButtonSubmit} 
+                            
                     >
                         {buttonLoading && <span>loading...</span>}
                         {buttonLoading && <i className="fa fa-cog fa-spin fa-fw"></i>}
@@ -57,6 +60,7 @@ const ShowLogIn = ({ onKeyUp, refUserName, refUserPassword, refButtonSubmit,
                     </button>
                 </Bounce>
             </form>
+            <ModalView />
         </div>
     )
 }
