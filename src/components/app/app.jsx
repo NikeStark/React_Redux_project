@@ -4,6 +4,7 @@ import ErrorIndicator from '../error-indicator';
 import {Route, Switch} from 'react-router-dom';
 import MoviePage from '../pages/movie-page';
 import HomePage from '../pages/home-page';
+import {CertainMovieOverview} from '../certain-movie';
 import Navbar from '../navbar';
 import LoginPage from '../pages/login-page';
 import {connect} from 'react-redux';
@@ -17,7 +18,7 @@ class App extends Component {
     }
    
     render(){
-        const{login} = this.props 
+        const{login, title} = this.props 
         return (
             <div>
                 <span className="test-style">Movies</span>

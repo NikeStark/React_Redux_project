@@ -18,6 +18,7 @@ $position-button-clear: relative;
 $margin-button-clear: -22px;
 $transition-button-clear: all 500ms;
 $transform-button-clear: scale(1.2);
+$outline-button-clear: none;
 
 /* --- SEARCH INPUT --- */
 $color-input-search-box: #1372a5;
@@ -51,6 +52,7 @@ $width-img-search: 27px;
         border: $border-button-clear;
         cursor: $cursor-button-clear;
         transition: $transition-button-clear;
+        outline: $outline-button-clear;
         &:hover{
             color: $hover-color-button-clear;
             transform: $transform-button-clear;
@@ -64,6 +66,7 @@ $width-img-search: 27px;
         padding: $padding-input-search-box;
         opacity: $opacity-input-search-box;
         transition: $transition-input-search-box;
+        outline: $outline-button-clear;
         &:hover{
             opacity: $hover-opacity-input-search-box;
         }

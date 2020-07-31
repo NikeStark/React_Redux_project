@@ -1,27 +1,29 @@
 import React, { Component, Fragment } from 'react';
 import './movie-list-item.scss';
-import {dispatchMovies, sortMovies, searchMovies} from '../../redux/actions';
+import {dispatchMovies, sortMovies, searchMovies, fetchMovies} from '../../redux/actions';
 import MovieItem from '../movie-item';
 import {connect} from 'react-redux';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import SearchItem from '../search-item';
 import SortItems from '../sort-items';
+import {CertainMovie} from '../certain-movie';
 
-const ListOfMovies = ({ movies, sortMovies, searchMovies, search, onClearSearch}) => { // !-- Component
+const ListOfMovies = ({watchMovie, isOpenMovie, onRecieveMovie, movies, sortMovies, searchMovies, search, onClearSearch}) => { // !-- Component
    const searchCase = search.toLowerCase();
    const listOfMovies = movies
         .filter((movie) => movie.title.toLowerCase().includes(searchCase))
         .map((movie) => {
                 return (
-                    <li key={movie.id}>
-                        <MovieItem title={movie.title} year={movie.year}/>
+                    <li key={movie.id} onClick={onRecieveMovie}>
+                        <MovieItem title={movie.title} year={movie.year} />
                     </li>
                 )
         })
             return (
                 <Fragment>
-                    <SearchItem searchMovies={searchMovies} onClearSearch={onClearSearch}/>
+                    <SearchItem searchMovies={searchMovies} onClearSearch={onClearSearch} />
+                    <CertainMovie isOpenMovie={isOpenMovie} watchMovie={watchMovie} movies={movies}/>
                         <ul>
                             {!listOfMovies.length ? <p>Movie not found</p> : listOfMovies}
                         </ul>
@@ -32,6 +34,23 @@ const ListOfMovies = ({ movies, sortMovies, searchMovies, search, onClearSearch}
 }
 
 class MovieListItem extends Component { // !-- Container
+   
+    state = {
+        isOpenMovie: false,
+        watchMovie: this.mov
+    }    
+    
+    mov = {
+        title:'',
+        year:''
+    }
+
+    onRecieveMovie = () => {
+        this.setState({
+            isOpenMovie: true,
+            watchMovie: fetchMovies(this.props.movies)
+        })
+    }
 
     componentDidMount(){
         this.props.fetchMovies();
@@ -45,6 +64,7 @@ class MovieListItem extends Component { // !-- Container
 
     render(){
         const{movies, loading, error, sortMovies, searchMovies, search} = this.props;
+        const{isOpenMovie, watchMovie} = this.state;
         
         if(loading){
             return <Spinner />
@@ -55,7 +75,7 @@ class MovieListItem extends Component { // !-- Container
         }
         
         if(!loading || error){
-            return <ListOfMovies onClearSearch={this.onClearSearch} search={search} movies={movies} sortMovies={sortMovies} searchMovies={searchMovies}/>
+            return <ListOfMovies watchMovie={watchMovie} isOpenMovie={isOpenMovie} onRecieveMovie={this.onRecieveMovie} onClearSearch={this.onClearSearch} search={search} movies={movies} sortMovies={sortMovies} searchMovies={searchMovies}/>
         }
     }
 }
